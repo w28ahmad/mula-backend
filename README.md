@@ -23,6 +23,7 @@ and so on and so forth.
 
 
 
-
-Once on the game page, we want a message broadcasting system. So that all users
-in the game receive the messages.
+# TODOs:
+- Automate git pushes for all 3 repos using bash file
+- Create a recursive repo that points to all 3 subrepos
+- 
