@@ -7,6 +7,10 @@ plugins {
     kotlin("plugin.spring") version "1.6.21"
 }
 
+allOpen {
+    annotation("javax.persistence.Entity")
+}
+
 group = "com.wahabahmad"
 version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_17
@@ -17,7 +21,12 @@ repositories {
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("mysql:mysql-connector-java")
+    implementation("org.hibernate:hibernate-core")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    implementation("org.springframework:spring-websocket")
+    implementation("org.springframework:spring-messaging")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
