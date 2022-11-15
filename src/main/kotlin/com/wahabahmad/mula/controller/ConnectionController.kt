@@ -13,6 +13,7 @@ class ConnectionController(
     @MessageMapping("/connection")
     @SendTo("/topic/connection")
     fun connect(user: User) : List<User> {
+        println(user.toString())
         return connectionService.connect(user)
     }
 }

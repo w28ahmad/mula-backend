@@ -1,6 +1,7 @@
 package com.wahabahmad.mula.controller
 
 import com.wahabahmad.mula.model.Question
+import com.wahabahmad.mula.request.QuestionSolutionRequest
 import com.wahabahmad.mula.service.GameService
 import org.springframework.messaging.handler.annotation.MessageMapping
 import org.springframework.messaging.handler.annotation.SendTo
@@ -13,5 +14,9 @@ class GameController(
 
     @MessageMapping("/game")
     @SendTo("/topic/game")
-    fun beginGame(): Question = gameService.getQuestion()
+    fun beginGame(): Question = gameService.getQuestion() // TODO: get a set of questions
+
+    @MessageMapping("/question")
+    @SendTo("topic/game")
+    fun checkQuestion(questionSolution: QuestionSolutionRequest) = gameService.checkQuestionSolution(questionSolution)
 }

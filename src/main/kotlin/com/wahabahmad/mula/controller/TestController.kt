@@ -19,13 +19,8 @@ class TestController(
     private val questionSolutionsRepository: QuestionSolutionsRepository
 ) {
     @GetMapping("/test1")
-    fun test1(): String {
-        val q : Optional<Question> = questionRepository.findById(1)
-        println(q.get().solution.toString())
-        println(q.get().hints.toString())
-        println(q.get().details.toString())
-        println(q.get().options.toString())
-        return "questionRepository.findById(1).toString()"
+    fun test1(): List<Question> {
+        return questionRepository.findAll()
     }
 
     @GetMapping("/test2")
@@ -51,7 +46,6 @@ class TestController(
     @MessageMapping("/all")
     @SendTo("/topic/all")
     fun post(message: Message) : Message {
-        println("HERE111")
         return message
     }
 }

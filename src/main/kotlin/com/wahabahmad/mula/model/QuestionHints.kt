@@ -11,4 +11,6 @@ data class QuestionHints(
     val hintThree: String? = null,
 
     val hintFour: String? = null,
+
+    val questionId : Int? = null,
 ) : BaseEntity()

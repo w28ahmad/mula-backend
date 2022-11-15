@@ -8,6 +8,8 @@ data class QuestionSolutions (
 
     val diagram : String? = null,
 
-    val explanation : String? = null
+    val explanation : String? = null,
+
+    val questionId : Int? = null,
 ) : BaseEntity()
 

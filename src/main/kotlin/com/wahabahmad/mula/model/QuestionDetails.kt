@@ -11,4 +11,6 @@ data class QuestionDetails(
     val partNumber : Int? = null,
 
     val partSize : Int? = null,
+
+    val questionId : Int? = null,
 ) : BaseEntity()
