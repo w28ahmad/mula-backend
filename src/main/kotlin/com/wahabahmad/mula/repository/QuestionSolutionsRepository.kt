@@ -5,4 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface QuestionSolutionsRepository : JpaRepository<QuestionSolutions, Int>
+interface QuestionSolutionsRepository : JpaRepository<QuestionSolutions, Int>{
+
+    fun findByQuestionId(questionId : Int) : QuestionSolutions
+
+}

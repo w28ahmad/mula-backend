@@ -8,12 +8,9 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class ConnectionController(
-    private val connectionService: ConnectionService
+    private val connectionService: ConnectionService,
 ) {
     @MessageMapping("/connection")
     @SendTo("/topic/connection")
-    fun connect(user: User) : List<User> {
-        println(user.toString())
-        return connectionService.connect(user)
-    }
+    fun connect(user: User) : List<User> = connectionService.connect(user)
 }
