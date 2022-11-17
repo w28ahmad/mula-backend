@@ -17,5 +17,8 @@ data class QuestionOptions(
     @Column(name="option_d")
     val optionD : String? = null,
 
+    @Column(name="option_e")
+    val optionE : String? = null,
+
     val questionId : Int? = null,
 ) : BaseEntity()

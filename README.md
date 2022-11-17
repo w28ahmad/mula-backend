@@ -24,6 +24,8 @@ and so on and so forth.
 
 
 # TODOs:
-- Automate git pushes for all 3 repos using bash file
-- Create a recursive repo that points to all 3 subrepos
-- 
+- Add more questions to the DB
+- Batch query questions randomly and send them to the FE
+- Have the FE track the correct and incorrect responses
+- Keep score
+- Add an indicator for incorrect responses

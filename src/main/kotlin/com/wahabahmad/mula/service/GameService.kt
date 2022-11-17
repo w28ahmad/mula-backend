@@ -7,16 +7,28 @@ import com.wahabahmad.mula.request.QuestionSolutionRequest
 import com.wahabahmad.mula.response.QuestionSetResponse
 import com.wahabahmad.mula.response.QuestionSolutionResponse
 import org.springframework.stereotype.Service
+import kotlin.random.Random
 
 @Service
 class GameService(
     private val questionRepository: QuestionRepository,
     private val questionSolutionsRepository: QuestionSolutionsRepository
 ) {
-    fun getQuestion(): QuestionSetResponse {
+
+    private val QUESTION_SET_SIZE = 2
+
+    fun getQuestions(): QuestionSetResponse {
+        val questionCount : Int = questionRepository.count().toInt()
+        val randomSample = generateSequence {
+            Random.nextInt(1, questionCount+1)
+        }
+            .distinct()
+            .take(QUESTION_SET_SIZE)
+            .toSet()
+
         return QuestionSetResponse(
             SocketMessageTypes.QUESTION_SET,
-            mutableListOf(questionRepository.findById(1).get())
+            questionRepository.findByIdIn(randomSample.toList())
         )
     }
 
