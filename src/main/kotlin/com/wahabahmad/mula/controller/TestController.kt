@@ -1,7 +1,15 @@
 package com.wahabahmad.mula.controller
 
-import com.wahabahmad.mula.model.*
-import com.wahabahmad.mula.repository.*
+import com.wahabahmad.mula.model.Question
+import com.wahabahmad.mula.model.QuestionDetails
+import com.wahabahmad.mula.model.QuestionHints
+import com.wahabahmad.mula.model.QuestionOptions
+import com.wahabahmad.mula.model.QuestionSolutions
+import com.wahabahmad.mula.repository.QuestionDetailsRepository
+import com.wahabahmad.mula.repository.QuestionHintsRepository
+import com.wahabahmad.mula.repository.QuestionOptionsRepository
+import com.wahabahmad.mula.repository.QuestionRepository
+import com.wahabahmad.mula.repository.QuestionSolutionsRepository
 import com.wahabahmad.mula.request.Message
 import org.springframework.messaging.handler.annotation.MessageMapping
 import org.springframework.messaging.handler.annotation.SendTo

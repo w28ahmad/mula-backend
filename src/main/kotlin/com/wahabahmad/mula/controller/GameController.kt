@@ -14,7 +14,7 @@ class GameController(
 
     @MessageMapping("/game")
     @SendTo("/topic/game")
-    fun beginGame(): QuestionSetResponse = gameService.getQuestions() // TODO: get a set of questions
+    fun beginGame(): QuestionSetResponse = gameService.getQuestions()
 
     @MessageMapping("/solution")
     @SendTo("/topic/game")

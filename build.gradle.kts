@@ -13,7 +13,7 @@ allOpen {
 
 group = "com.wahabahmad"
 version = "0.0.1-SNAPSHOT"
-java.sourceCompatibility = JavaVersion.VERSION_17
+java.sourceCompatibility = JavaVersion.VERSION_19
 
 repositories {
     mavenCentral()
@@ -41,4 +41,15 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+tasks.jar {
+    manifest {
+        attributes["Main-Class"] = "com.wahabahmad.mula.MulaApplicationKt"
+    }
+    configurations["compileClasspath"].forEach { file: File ->
+        from(zipTree(file.absoluteFile))
+    }
+
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
