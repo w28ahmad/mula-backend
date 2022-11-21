@@ -25,6 +25,10 @@ and so on and so forth.
 
 # TODOs:
 
+- Docker container works:
+  - Connection is not working
+  - CHECK IF THE BACKEND CODE WORKS WHEN RUNNING THE JAR FILE LOCALLY!!!
+
 - Add more questions
   - Maybe: Add a better way to input questions that is faster
   - Add support for diagrams using AWS buckets key value store
