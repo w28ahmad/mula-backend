@@ -24,8 +24,7 @@ and so on and so forth.
 
 
 # TODOs:
-- Add more questions to the DB
-- Batch query questions randomly and send them to the FE
-- Have the FE track the correct and incorrect responses
-- Keep score
-- Add an indicator for incorrect responses
+
+- Add more questions
+  - Maybe: Add a better way to input questions that is faster
+  - Add support for diagrams using AWS buckets key value store
