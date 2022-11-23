@@ -29,6 +29,9 @@ and so on and so forth.
   - Connection is not working
   - CHECK IF THE BACKEND CODE WORKS WHEN RUNNING THE JAR FILE LOCALLY!!!
 
+- DB Migrations
+  - Make them lexographic so the migrations can be run easily
+
 - Add more questions
   - Maybe: Add a better way to input questions that is faster
   - Add support for diagrams using AWS buckets key value store
