@@ -1,0 +1,22 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mula-api-deployment
+  labels:
+    app: mula-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mula-api
+  template:
+    metadata:
+      labels:
+        app: mula-api
+    spec:
+      containers:
+      - name: mula-api
+        image: 195637673041.dkr.ecr.us-east-1.amazonaws.com/mula:d5a4e7e2a820727fccb1dc4af11c8f5d2b53c4f0
+        ports:
+        - containerPort: 8080
