@@ -29,6 +29,7 @@ dependencies {
     implementation("org.springframework:spring-messaging")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    implementation("redis.clients:jedis")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 

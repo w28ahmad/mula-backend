@@ -13,6 +13,7 @@ players. Here are the proof of concept criterion:
 - Create a game between some set of individuals
 - Display a question stored in DB on the FE
 - Build a competing system for users compete and finish the game
+- Make the test endpoints more descriptive
 
 ### Notes
 
@@ -25,9 +26,14 @@ and so on and so forth.
 
 # TODOs:
 
-- Docker container works:
-  - Connection is not working
-  - CHECK IF THE BACKEND CODE WORKS WHEN RUNNING THE JAR FILE LOCALLY!!!
+1. Fix the issue when 2 users connect there is a quick refresh of the questions page
+2. Fix the refresh issue such that a user cannot refresh and add limitess users
+3. Fix the refresh issue such that the questions don't change when a user refreshes a question page
+4. Investigate the finish issue, where if user A finishes the screen for user B should not end
+5. Add the indicator for question wrong
+6. Create a timer for 10 sec and move the player limit back to 5 
+7. If a user gets a question wrong, they redirected to another question
+8. Add (YOU) outside the progress bar that belongs to you
 
 - DB Migrations
   - Make them lexographic so the migrations can be run easily

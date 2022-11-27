@@ -15,7 +15,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping
 import org.springframework.messaging.handler.annotation.SendTo
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
-import java.util.*
+import redis.clients.jedis.Jedis
 
 
 @RestController
@@ -24,7 +24,8 @@ class TestController(
     private val questionDetailsRepository: QuestionDetailsRepository,
     private val questionHintsRepository: QuestionHintsRepository,
     private val questionOptionsRepository: QuestionOptionsRepository,
-    private val questionSolutionsRepository: QuestionSolutionsRepository
+    private val questionSolutionsRepository: QuestionSolutionsRepository,
+    private val jedis: Jedis
 ) {
     @GetMapping("/test1")
     fun test1(): List<Question> {
@@ -55,5 +56,10 @@ class TestController(
     @SendTo("/topic/all")
     fun post(message: Message) : Message {
         return message
+    }
+
+    @GetMapping("/test6")
+    fun test6(): String {
+        return jedis.ping()
     }
 }
