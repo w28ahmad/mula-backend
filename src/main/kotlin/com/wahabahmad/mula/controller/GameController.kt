@@ -18,5 +18,6 @@ class GameController(
 
     @MessageMapping("/solution")
     @SendTo("/topic/game")
-    fun checkQuestion(questionSolution: QuestionSolutionRequest) = gameService.checkQuestionSolution(questionSolution)
+    fun checkQuestion(questionSolution: QuestionSolutionRequest) =
+        gameService.checkQuestionSolution(questionSolution)
 }

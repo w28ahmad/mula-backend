@@ -1,5 +1,7 @@
 package com.wahabahmad.mula.controller
 
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.wahabahmad.mula.data.User
 import com.wahabahmad.mula.model.Question
 import com.wahabahmad.mula.model.QuestionDetails
 import com.wahabahmad.mula.model.QuestionHints
@@ -61,5 +63,14 @@ class TestController(
     @GetMapping("/test6")
     fun test6(): String {
         return jedis.ping()
+    }
+
+    @GetMapping("/test7")
+    fun test7(): String {
+        val testUser = User("u1234", "Adam")
+        val mapper = jacksonObjectMapper()
+        jedis.set(testUser.id, mapper.writeValueAsString(testUser))
+        val user : User = mapper.readValue(jedis.get(testUser.id), User::class.java)
+        return user.toString()
     }
 }

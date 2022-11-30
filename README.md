@@ -41,3 +41,6 @@ and so on and so forth.
 - Add more questions
   - Maybe: Add a better way to input questions that is faster
   - Add support for diagrams using AWS buckets key value store
+
+# Good Deployment Instructions
+youtube.com/watch?v=PH-Mcd0Rs1w&list=PLy_6D98if3ULEtXtNSY_2qN21VCKgoQAE&index=32
