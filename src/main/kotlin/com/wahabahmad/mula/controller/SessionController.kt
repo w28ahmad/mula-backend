@@ -22,6 +22,5 @@ class SessionController(
     @MessageMapping("/disconnect")
     @SendTo("/topic/disconnect")
     fun disconnect(player: PlayerDisconnectRequest): PlayerDisconnectionResponse =
-        sessionService.disconnect(player.id, player.users)
-
+        sessionService.disconnect(player.sessionId, player.users)
 }

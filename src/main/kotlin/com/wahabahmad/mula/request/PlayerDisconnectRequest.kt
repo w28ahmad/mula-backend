@@ -3,6 +3,6 @@ package com.wahabahmad.mula.request
 import com.wahabahmad.mula.data.User
 
 data class PlayerDisconnectRequest(
-    val id: String,
+    val sessionId: String,
     val users: List<User>
 )

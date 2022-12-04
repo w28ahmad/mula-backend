@@ -6,31 +6,28 @@ import com.wahabahmad.mula.repository.QuestionSolutionsRepository
 import com.wahabahmad.mula.request.QuestionSolutionRequest
 import com.wahabahmad.mula.response.QuestionSetResponse
 import com.wahabahmad.mula.response.QuestionSolutionResponse
+import com.wahabahmad.mula.util.SessionUtil
 import org.springframework.stereotype.Service
-import kotlin.random.Random
 
 @Service
 class GameService(
     private val questionRepository: QuestionRepository,
-    private val questionSolutionsRepository: QuestionSolutionsRepository
+    private val questionSolutionsRepository: QuestionSolutionsRepository,
+    private val sessionUtil: SessionUtil
 ) {
-
-    private val QUESTION_SET_SIZE = 2
-
-    fun getQuestions(): QuestionSetResponse {
-        val questionCount : Int = questionRepository.count().toInt()
-        val randomSample = generateSequence {
-            Random.nextInt(1, questionCount+1)
-        }
-            .distinct()
-            .take(QUESTION_SET_SIZE)
-            .toSet()
-
-        return QuestionSetResponse(
-            SocketMessageTypes.QUESTION_SET,
-            questionRepository.findByIdIn(randomSample.toList())
-        )
+    companion object {
+        const val QUESTION_SET_SIZE = 2
     }
+
+    fun getQuestions(sessionId: String): QuestionSetResponse =
+        with(sessionUtil) {
+            QuestionSetResponse(
+                SocketMessageTypes.QUESTION_SET,
+                questionRepository.findByIdIn(
+                    getSessionQuestions(sessionId).toList()
+                )
+            )
+        }
 
     fun checkQuestionSolution(questionSolution : QuestionSolutionRequest): QuestionSolutionResponse {
         val solution = questionSolutionsRepository.findByQuestionId(questionSolution.questionId)
