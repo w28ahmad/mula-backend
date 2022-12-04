@@ -1,0 +1,136 @@
+{
+  "questions": [
+    {
+      "questionData": {
+        "question": "'The expression $$\\\\frac{22+20}{2}$$ is equal to'",
+        "optionA":"'1'",
+        "optionB":"'4'",
+        "optionC":"'20'",
+        "optionD":"'21'",
+        "optionE":"'22'",
+        "diagram": "null"
+      },
+
+      "solutionData": {
+        "solution": "'21'",
+        "explanation": "null",
+        "diagram": "null"
+      },
+
+      "details": {
+        "grade": 9,
+        "partType": "'A'",
+        "partNumber": 1,
+        "partSize": 10,
+        "subject": "null",
+        "topic": "null"
+      },
+
+      "hints": {
+        "hintOne": "null",
+        "hintTwo": "null",
+        "hintThree": "null",
+        "hintFour": "null"
+      }
+    },
+    {
+      "questionData": {
+        "question": "'The value of $$\\\\frac{1}{2} + \\\\frac{2}{4} + \\\\frac{4}{8} + \\\\frac{8}{16}$$ is'",
+        "optionA":"'$\\\\frac{1}{4}$'",
+        "optionB":"'$\\\\frac{1}{2}$'",
+        "optionC":"'0'",
+        "optionD":"'4'",
+        "optionE":"'2'",
+        "diagram": "null"
+      },
+
+      "solutionData": {
+        "solution": "'2'",
+        "explanation": "'$$\\\\frac{1}{2} + \\\\frac{1}{2} + \\\\frac{1}{2} + \\\\frac{1}{2} = 2$$'",
+        "diagram": "null"
+      },
+
+      "details": {
+        "grade": 9,
+        "partType": "'A'",
+        "partNumber": 3,
+        "partSize": 10,
+        "subject": "null",
+        "topic": "null"
+      },
+
+      "hints": {
+        "hintOne": "null",
+        "hintTwo": "null",
+        "hintThree": "null",
+        "hintFour": "null"
+      }
+    },
+    {
+      "questionData": {
+        "question": "'Which of the following numbers is closest to -3.4'",
+        "optionA":"'-4'",
+        "optionB":"'-3'",
+        "optionC":"'0'",
+        "optionD":"'3'",
+        "optionE":"'4'",
+        "diagram": "null"
+      },
+
+      "solutionData": {
+        "solution": "'-3'",
+        "explanation": "'On a number line, -3.4 is between -4 and -3. This means that -3.4 is closer to -4 and -3 than to any of 0, 3 or 4, and so the answer must be -4 or -3. If we start at -3 and move in the negative direction (that is, to the left), we reach -3.4 after moving 0.4 units. It then takes an additional 0.6 units to move in the negative direction from -3.4 to -4. Therefore, -3.4 is closer to -3 than to -4, and so the answer is (B) or -3. Alternatively, when comparing -3, -4 and -3.4, we could note that -3.4 is between -3.5 and -3 and so is closer to -3'",
+        "diagram": "null"
+      },
+
+      "details": {
+        "grade": 9,
+        "partType": "'A'",
+        "partNumber": 4,
+        "partSize": 10,
+        "subject": "null",
+        "topic": "null"
+      },
+
+      "hints": {
+        "hintOne": "null",
+        "hintTwo": "null",
+        "hintThree": "null",
+        "hintFour": "null"
+      }
+    },
+    {
+      "questionData": {
+        "question": "'Robyn has 4 tasks to do and Sasha has 14 tasks to do. In order for Robyn and Sasha to do the same number of tasks, how many of Sasha\\'s tasks should Robyn do?'",
+        "optionA":"'6'",
+        "optionB":"'4'",
+        "optionC":"'5'",
+        "optionD":"'7'",
+        "optionE":"'2'",
+        "diagram": "null"
+      },
+
+      "solutionData": {
+        "solution": "'5'",
+        "explanation": "'Between them, Robyn and Sasha have 4 + 14 = 18 tasks to do. If each does the same number of tasks, each must do 18 ÷ 2 = 9 tasks. This means that Robyn must do 9 - 4 = 5 of Sasha\\'s tasks.'",
+        "diagram": "null"
+      },
+
+      "details": {
+        "grade": 9,
+        "partType": "'A'",
+        "partNumber": 6,
+        "partSize": 10,
+        "subject": "null",
+        "topic": "null"
+      },
+
+      "hints": {
+        "hintOne": "null",
+        "hintTwo": "null",
+        "hintThree": "null",
+        "hintFour": "null"
+      }
+    }
+  ]
+}
