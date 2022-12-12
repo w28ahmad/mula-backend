@@ -1,56 +1,44 @@
 package com.wahabahmad.mula.service
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.wahabahmad.mula.data.Question
+import com.wahabahmad.mula.data.QuestionsJson
+import com.wahabahmad.mula.exception.CommonExceptions
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.io.Resource
 import org.springframework.stereotype.Service
-
-data class Question(
-    val questionData: QuestionData,
-    val solutionData: SolutionData,
-    val details: Details,
-    val hints: Hints
-)
-
-data class QuestionData(
-    val question: String,
-    val optionA: String,
-    val optionB: String,
-    val optionC: String,
-    val optionD: String,
-    val optionE: String,
-    val diagram: String
-)
-
-data class SolutionData(
-    val solution: String,
-    val explanation: String,
-    val diagram: String
-)
-
-data class Details(
-    val grade: Int,
-    val partType: String,
-    val partNumber: Int,
-    val partSize: Int,
-    val subject: String,
-    val topic: String
-)
-
-data class Hints(
-    val hintOne: String,
-    val hintTwo: String,
-    val hintThree: String,
-    val hintFour: String,
-)
+import java.io.FileOutputStream
 
 @Service
 class QuestionJsonService(
     @Value("classpath:questionStore.json")
     private val questionStore: Resource,
+    private val objectMapper: ObjectMapper
 ) {
+    private val mapper = jacksonObjectMapper()
+    private val questionData = mapper.readValue(
+        questionStore.file.readText(),
+        QuestionsJson::class.java
+    )
 
-    fun getQuestionStore(): String {
-        return questionStore.file.readText()
+    fun getQuestionCount(): Int = questionData.questions.size
+
+    fun getQuestionByIdx(idx: Int): Question {
+        if(idx < 0 || idx >= getQuestionCount())
+            throw Exception(CommonExceptions.OUT_OF_RANGE)
+        return questionData.questions[idx]
     }
 
+    fun putQuestionByIdx(idx: Int, question: Question): Unit {
+        if(idx < 0 || idx >= getQuestionCount())
+            throw Exception(CommonExceptions.OUT_OF_RANGE)
+        questionData.questions[idx] = question
+        val jsonString = objectMapper.writeValueAsString(questionData)
+        val file = questionStore.file
+        val out = FileOutputStream(file)
+        out.write(jsonString.toByteArray())
+        out.close()
+    }
 }
+
