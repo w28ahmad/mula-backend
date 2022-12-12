@@ -26,4 +26,7 @@ class QuestionController(
     fun putQuestionByIdx(@RequestParam("idx") idx: Int, @RequestBody question: Question): Unit =
         questionJsonService.putQuestionByIdx(idx, question)
 
+    @PostMapping("createQuestion")
+    fun createQuestionByIdx(@RequestBody question: Question): Unit =
+        questionJsonService.createQuestion(question)
 }

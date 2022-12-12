@@ -34,6 +34,15 @@ class QuestionJsonService(
         if(idx < 0 || idx >= getQuestionCount())
             throw Exception(CommonExceptions.OUT_OF_RANGE)
         questionData.questions[idx] = question
+        saveToQuestionJsonFile()
+    }
+
+    fun createQuestion(question: Question) {
+        questionData.questions.add(question)
+        saveToQuestionJsonFile()
+    }
+
+    private fun saveToQuestionJsonFile() {
         val jsonString = objectMapper.writeValueAsString(questionData)
         val file = questionStore.file
         val out = FileOutputStream(file)

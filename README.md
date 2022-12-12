@@ -33,10 +33,10 @@ and so on and so forth.
 
 # Adding questions
 1. Create a dashboard -- See if a repo already exists todo this since this is a internal tool
-  - Add questions to json
+  - ~~Add questions to json~~
   - Add aws bucket to store diagrams
-  - Display questions from json (edit/verify ability)
-  - 
+  - ~~Display questions from json (edit/verify ability)~~
+  - Clean up the code, modularize the code. For easier maintainability
 
 This will be need to done through the existing code since
 it does not make sense create another repository.
