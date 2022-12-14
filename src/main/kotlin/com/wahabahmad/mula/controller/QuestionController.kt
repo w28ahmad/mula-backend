@@ -1,6 +1,7 @@
 package com.wahabahmad.mula.controller
 
 import com.wahabahmad.mula.data.Question
+import com.wahabahmad.mula.service.DiagramService
 import com.wahabahmad.mula.service.QuestionJsonService
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping

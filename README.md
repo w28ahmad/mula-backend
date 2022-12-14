@@ -37,6 +37,9 @@ and so on and so forth.
   - Add aws bucket to store diagrams
   - ~~Display questions from json (edit/verify ability)~~
   - Clean up the code, modularize the code. For easier maintainability
+  - Create an option to delete a question
+  - Add a Id field to JSON
+  - Save item to sql as well as JSON
 
 This will be need to done through the existing code since
 it does not make sense create another repository.
