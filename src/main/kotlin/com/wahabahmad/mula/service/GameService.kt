@@ -29,6 +29,12 @@ class GameService(
             )
         }
 
+    fun getQuestionsByIdx(questionIdx: Int): QuestionSetResponse =
+        QuestionSetResponse(
+            SocketMessageTypes.QUESTION_SET,
+            listOf(questionRepository.findById(questionIdx).get())
+        )
+
     fun checkQuestionSolution(questionSolution : QuestionSolutionRequest): QuestionSolutionResponse {
         val solution = questionSolutionsRepository.findByQuestionId(questionSolution.questionId)
         return QuestionSolutionResponse(
