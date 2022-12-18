@@ -23,7 +23,7 @@ class GameController(
     @MessageMapping("/gameDebug")
     @SendTo("/topic/game")
     fun debugGame(beginGameRequest: BeginGameDebugRequest): QuestionSetResponse =
-        gameService.getQuestionsByIdx(beginGameRequest.questionIdx)
+        gameService.getQuestionsByIdx(beginGameRequest.questionId)
 
     @MessageMapping("/solution")
     @SendTo("/topic/game")

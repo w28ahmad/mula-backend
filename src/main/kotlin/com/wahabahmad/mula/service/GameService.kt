@@ -29,10 +29,10 @@ class GameService(
             )
         }
 
-    fun getQuestionsByIdx(questionIdx: Int): QuestionSetResponse =
+    fun getQuestionsByIdx(questionId: Int): QuestionSetResponse =
         QuestionSetResponse(
             SocketMessageTypes.QUESTION_SET,
-            listOf(questionRepository.findById(questionIdx).get())
+            listOf(questionRepository.findById(questionId).get())
         )
 
     fun checkQuestionSolution(questionSolution : QuestionSolutionRequest): QuestionSolutionResponse {

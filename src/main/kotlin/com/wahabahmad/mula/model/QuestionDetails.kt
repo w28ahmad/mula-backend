@@ -12,5 +12,9 @@ data class QuestionDetails(
 
     val partSize : Int? = null,
 
+    val subject : String? = null,
+
+    val topic : String? = null,
+
     val questionId : Int? = null,
 ) : BaseEntity()

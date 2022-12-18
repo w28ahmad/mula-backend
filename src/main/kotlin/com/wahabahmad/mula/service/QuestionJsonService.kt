@@ -31,9 +31,9 @@ class QuestionJsonService(
     }
 
     fun putQuestionByIdx(idx: Int, question: Question): Unit {
-        if(idx < 0 || idx >= getQuestionCount())
+        if(idx < 0 || idx-1 >= getQuestionCount())
             throw Exception(CommonExceptions.OUT_OF_RANGE)
-        questionData.questions[idx] = question
+        questionData.questions[idx-1] = question
         saveToQuestionJsonFile()
     }
 
