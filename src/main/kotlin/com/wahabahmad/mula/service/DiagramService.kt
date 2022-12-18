@@ -2,9 +2,9 @@ package com.wahabahmad.mula.service
 
 import com.amazonaws.services.s3.AmazonS3
 import com.amazonaws.services.s3.model.ObjectMetadata
-import com.amazonaws.services.s3.model.S3ObjectInputStream
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
+import java.net.URL
 import java.util.*
 
 
@@ -14,10 +14,15 @@ class DiagramService(
 ) {
     companion object {
         const val BUCKET_NAME = "mula-diagram-store"
+        const val EXPIRATION_OFFSET_MILLISECONDS = 1000 * 60 * 60 // ONE HOUR
     }
 
-    fun get(id: String): S3ObjectInputStream =
-        s3Client.getObject(BUCKET_NAME, id).objectContent
+    fun get(objectId: String): URL =
+        s3Client.generatePresignedUrl(
+            BUCKET_NAME,
+            objectId,
+            Date(Date().time + EXPIRATION_OFFSET_MILLISECONDS)
+        )
 
     fun save(image: MultipartFile): String =
         with(UUID.randomUUID().toString()){

@@ -1,9 +1,8 @@
 package com.wahabahmad.mula.controller
 
+import com.wahabahmad.mula.response.DiagramIDResponse
+import com.wahabahmad.mula.response.DiagramURLResponse
 import com.wahabahmad.mula.service.DiagramService
-import org.springframework.core.io.InputStreamResource
-import org.springframework.http.MediaType
-import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -18,16 +17,12 @@ class DiagramController(
 ) {
 
     @GetMapping("/diagrams/{id}")
-    fun getDiagram(@PathVariable id: String): ResponseEntity<InputStreamResource> =
-        with(diagramService.get(id)) {
-            ResponseEntity.ok()
-                .contentType(MediaType.IMAGE_PNG)
-                .body(InputStreamResource(this))
-        }
+    fun getDiagram(@PathVariable id: String): DiagramURLResponse =
+        DiagramURLResponse(diagramService.get(id).toString())
 
     @PostMapping("/diagrams")
-    fun saveDiagram(@RequestParam("file") file: MultipartFile): String =
-        diagramService.save(file)
+    fun saveDiagram(@RequestParam("file") file: MultipartFile): DiagramIDResponse =
+        DiagramIDResponse(diagramService.save(file))
 
     @DeleteMapping("/diagrams/{id}")
     fun deleteDiagram(@PathVariable id: String) =
