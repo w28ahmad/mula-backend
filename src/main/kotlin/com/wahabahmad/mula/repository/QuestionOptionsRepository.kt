@@ -10,24 +10,6 @@ import org.springframework.transaction.annotation.Transactional
 
 @Repository
 interface QuestionOptionsRepository : JpaRepository<QuestionOptions, Int> {
-    /**
-     *    @Column(name="option_a")
-    val optionA : String? = null,
-
-    @Column(name="option_b")
-    val optionB : String? = null,
-
-    @Column(name="option_c")
-    val optionC : String? = null,
-
-    @Column(name="option_d")
-    val optionD : String? = null,
-
-    @Column(name="option_e")
-    val optionE : String? = null,
-
-    val questionId : Int? = null,
-      */
 
     @Modifying
     @Transactional

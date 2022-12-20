@@ -25,11 +25,13 @@ class QuestionController(
 
     @PostMapping("/putQuestion")
     fun putQuestionByIdx(@RequestParam("id") id: Int, @RequestBody question: Question): Unit {
-        questionJsonService.putQuestionByIdx(id, question)
+//        questionJsonService.putQuestionByIdx(id, question)
         questionService.putQuestionById(id, question)
     }
 
     @PostMapping("createQuestion")
     fun createQuestionByIdx(@RequestBody question: Question): Unit =
-        questionJsonService.createQuestion(question)
+//        questionJsonService.createQuestion(question)
+        questionService.createQuestion(question)
+
 }

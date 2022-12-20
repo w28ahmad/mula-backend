@@ -6,6 +6,10 @@ import com.wahabahmad.mula.data.Question
 import com.wahabahmad.mula.data.QuestionData
 import com.wahabahmad.mula.data.SolutionData
 import com.wahabahmad.mula.exception.CommonExceptions
+import com.wahabahmad.mula.model.QuestionDetails
+import com.wahabahmad.mula.model.QuestionHints
+import com.wahabahmad.mula.model.QuestionOptions
+import com.wahabahmad.mula.model.QuestionSolutions
 import com.wahabahmad.mula.repository.QuestionDetailsRepository
 import com.wahabahmad.mula.repository.QuestionHintsRepository
 import com.wahabahmad.mula.repository.QuestionOptionsRepository
@@ -66,7 +70,7 @@ class QuestionService(
         return Question(questionData, solutionData, detailsData, hintsData)
     }
 
-    fun putQuestionById(id: Int, question: Question): Unit {
+    fun putQuestionById(id: Int, question: Question) {
         if (id <= 0 || id > getQuestionCount())
             throw Exception(CommonExceptions.OUT_OF_RANGE)
 
@@ -119,11 +123,68 @@ class QuestionService(
                 )
             }
         }
-
-
     }
 
     fun createQuestion(question: Question) {
-//        questionData.questions.add(question)
+        val newQuestionId = getQuestionCount() + 1
+
+        with(question.questionData) {
+            questionRepository.save(
+                com.wahabahmad.mula.model.Question(
+                    questionSnippet = this.question,
+                    diagram = diagram
+                )
+            )
+        }
+
+        with(question.questionData) {
+            questionOptionsRepository.save(
+                QuestionOptions(
+                    optionA = optionA,
+                    optionB = optionB,
+                    optionC = optionC,
+                    optionD = optionD,
+                    optionE = optionE,
+                    questionId = newQuestionId
+                )
+            )
+        }
+
+        with(question.solutionData) {
+            solutionsRepository.save(
+                QuestionSolutions(
+                    correctSolution = solution,
+                    diagram = diagram,
+                    explanation = explanation,
+                    questionId = newQuestionId
+                )
+            )
+        }
+
+        with(question.details) {
+            detailsRepository.save(
+                QuestionDetails(
+                    grade = grade,
+                    partType = partType,
+                    partNumber = partNumber,
+                    partSize = partSize,
+                    subject = subject,
+                    topic = topic,
+                    questionId = newQuestionId
+                )
+            )
+        }
+
+        with(question.hints) {
+            hintsRepository.save(
+                QuestionHints(
+                    hintOne = hintOne,
+                    hintTwo = hintTwo,
+                    hintThree = hintThree,
+                    hintFour = hintFour,
+                    questionId = newQuestionId
+                )
+            )
+        }
     }
 }
