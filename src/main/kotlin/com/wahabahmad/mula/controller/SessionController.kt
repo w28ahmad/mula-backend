@@ -4,6 +4,7 @@ import com.wahabahmad.mula.data.User
 import com.wahabahmad.mula.request.PlayerDisconnectRequest
 import com.wahabahmad.mula.response.PlayerConnectionResponse
 import com.wahabahmad.mula.response.PlayerDisconnectionResponse
+import com.wahabahmad.mula.response.SessionCloseResponse
 import com.wahabahmad.mula.service.SessionService
 import org.springframework.messaging.handler.annotation.MessageMapping
 import org.springframework.messaging.handler.annotation.SendTo
@@ -18,6 +19,13 @@ class SessionController(
     @SendTo("/topic/connect")
     fun connect(user: User): PlayerConnectionResponse =
         sessionService.connect(user)
+
+    @MessageMapping("/close")
+    @SendTo("/topic/connect")
+    fun close(sessionId: String): SessionCloseResponse {
+        sessionService.close(sessionId)
+        return SessionCloseResponse()
+    }
 
     @MessageMapping("/disconnect")
     @SendTo("/topic/disconnect")

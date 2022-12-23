@@ -4,7 +4,6 @@ import com.wahabahmad.mula.data.User
 import com.wahabahmad.mula.response.PlayerConnectionResponse
 import com.wahabahmad.mula.response.PlayerDisconnectionResponse
 import com.wahabahmad.mula.util.SessionUtil
-import com.wahabahmad.mula.util.SessionUtil.Companion.SESSION_MAX_SIZE
 import org.springframework.stereotype.Service
 import java.util.*
 
@@ -18,10 +17,10 @@ class SessionService(
             user.id = UUID.randomUUID().toString()
             if(!openSessionExists()) createOpenSession()
             val sessionId = addPlayerToOpenSession(user)
-            if (openSessionPlayerSize() >= SESSION_MAX_SIZE)
-                closeSession()
             PlayerConnectionResponse(sessionId=sessionId, users=getSessionPlayers(sessionId))
         }
+
+    fun close(sessionId: String) = sessionUtil.closeSession()
 
     fun disconnect(sessionId: String, users: List<User>) =
         with(sessionUtil) {

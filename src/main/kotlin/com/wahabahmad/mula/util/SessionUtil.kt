@@ -80,6 +80,4 @@ class SessionUtil(
             del("${SESSION_PLAYER_COUNT}:${sessionId}")
             del("${SESSION_QUESTIONS}:${sessionId}")
         }
-    
-    
 }
