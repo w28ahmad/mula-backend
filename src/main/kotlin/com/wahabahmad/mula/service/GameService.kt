@@ -13,10 +13,11 @@ import org.springframework.stereotype.Service
 class GameService(
     private val questionRepository: QuestionRepository,
     private val questionSolutionsRepository: QuestionSolutionsRepository,
-    private val sessionUtil: SessionUtil
+    private val sessionUtil: SessionUtil,
+    private val diagramService: DiagramService
 ) {
     companion object {
-        const val QUESTION_SET_SIZE = 2
+        const val QUESTION_SET_SIZE = 5
     }
 
     fun getQuestions(sessionId: String): QuestionSetResponse =
@@ -25,14 +26,19 @@ class GameService(
                 SocketMessageTypes.QUESTION_SET,
                 questionRepository.findByIdIn(
                     getSessionQuestions(sessionId).toList()
-                )
+                ).map { question ->
+                    question.diagram = question.getDiagramUrl(diagramService)
+                    question
+                }
             )
         }
 
     fun getQuestionsByIdx(questionId: Int): QuestionSetResponse =
         QuestionSetResponse(
             SocketMessageTypes.QUESTION_SET,
-            listOf(questionRepository.findById(questionId).get())
+            listOf(questionRepository.findById(questionId).get()).map { question ->
+                question.copy(diagram = question.getDiagramUrl(diagramService))
+            }
         )
 
     fun checkQuestionSolution(questionSolution : QuestionSolutionRequest): QuestionSolutionResponse {

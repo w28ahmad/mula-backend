@@ -23,7 +23,8 @@ class QuestionService(
     private val solutionsRepository: QuestionSolutionsRepository,
     private val detailsRepository: QuestionDetailsRepository,
     private val hintsRepository: QuestionHintsRepository,
-    private val questionOptionsRepository: QuestionOptionsRepository
+    private val questionOptionsRepository: QuestionOptionsRepository,
+    private val diagramService: DiagramService
 ) {
     fun getQuestionCount(): Int = questionRepository.count().toInt()
 
@@ -42,7 +43,7 @@ class QuestionService(
             question.options!!.optionC!!,
             question.options!!.optionD!!,
             question.options!!.optionE!!,
-            question.diagram!!
+            question.diagram?.let { diagramService.get(it).toString() }.orEmpty()
         )
 
         val solutionData = SolutionData(

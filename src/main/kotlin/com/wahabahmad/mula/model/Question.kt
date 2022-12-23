@@ -1,5 +1,6 @@
 package com.wahabahmad.mula.model
 
+import com.wahabahmad.mula.service.DiagramService
 import javax.persistence.Entity
 import javax.persistence.JoinColumn
 import javax.persistence.OneToOne
@@ -9,10 +10,13 @@ data class Question(
 
     val questionSnippet: String? = null,
 
-    val diagram: String? = null,
+    var diagram: String? = null,
 
     @OneToOne
     @JoinColumn(name="id")
-    val options: QuestionOptions? = null
+    val options: QuestionOptions? = null,
 
-) : BaseEntity()
+    ) : BaseEntity() {
+    fun getDiagramUrl(diagramService: DiagramService): String? =
+        diagram?.let { diagramService.get(it).toString() }
+}
