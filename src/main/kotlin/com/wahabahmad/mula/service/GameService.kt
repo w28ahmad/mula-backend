@@ -37,7 +37,9 @@ class GameService(
         QuestionSetResponse(
             SocketMessageTypes.QUESTION_SET,
             listOf(questionRepository.findById(questionId).get()).map { question ->
-                question.copy(diagram = question.getDiagramUrl(diagramService))
+                question.diagram = question.getDiagramUrl(diagramService)
+                println(question.toString())
+                question
             }
         )
 

@@ -43,7 +43,7 @@ class QuestionService(
             question.options!!.optionC!!,
             question.options!!.optionD!!,
             question.options!!.optionE!!,
-            question.diagram?.let { diagramService.get(it).toString() }.orEmpty()
+            question.diagram?.takeIf { it.isNotEmpty() }?.let { diagramService.get(it).toString() }.orEmpty()
         )
 
         val solutionData = SolutionData(
