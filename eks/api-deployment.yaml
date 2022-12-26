@@ -17,6 +17,6 @@ spec:
     spec:
       containers:
       - name: mula-api
-        image: 195637673041.dkr.ecr.us-east-1.amazonaws.com/mula:507715e9dd776d3e392eb5d7b1e7e69a2b57195c
+        image: 195637673041.dkr.ecr.us-east-1.amazonaws.com/mula:f7438623c5c0e8c74a92269be8c63771eb0ef59c
         ports:
         - containerPort: 8080
