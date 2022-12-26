@@ -13,7 +13,7 @@ class RedisConfig(
     @Bean
     fun redisConnection() : Jedis =
         Jedis(HostAndPort(
-            environment.getProperty("REDIS_HOST"),
-            environment.getProperty("REDIS_PORT")?.toInt() ?: 6379
+            environment.getProperty("REDIS_SERVICE_HOST"),
+            environment.getProperty("REDIS_SERVICE_PORT")?.toInt() ?: 6379
         ))
 }

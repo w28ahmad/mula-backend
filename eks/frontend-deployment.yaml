@@ -17,6 +17,6 @@ spec:
     spec:
       containers:
       - name: mula-frontend
-        image: 195637673041.dkr.ecr.us-east-1.amazonaws.com/mula-frontend:49750a5a75c884faa2c2444b83f7ff66407688b7
+        image: 195637673041.dkr.ecr.us-east-1.amazonaws.com/mula-frontend:60c0b5090ff59ffbdca124783ee765b293e7a851
         ports:
         - containerPort: 80
