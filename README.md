@@ -25,38 +25,30 @@ and so on and so forth.
 
 
 # TODOs:
+- Refactor code to have the timer with the session
+- Ensure Player removal occurs on tab close
+- Add indicator for question wrong
+- If a user gets a question wrong, they redirected to another question 
+- Fix the page size/scroll issues when page content gets too large
 
-1. ~~Fix the issue when 2 users connect there is a quick refresh of the questions page~~
-2. ~~Fix the refresh issue such that a user cannot refresh and add limitess users~~
-3. ~~Fix the refresh issue such that the questions don't change when a user refreshes a question page~~
-4. ~~Investigate the finish issue, where if user A finishes the screen for user B should not end~~
+- The entire session should be controlled by the backend, 
+  Closing session ... starting game, these should all be events
+  propagated by the backend
 
-# Adding questions
-1. Create a dashboard -- See if a repo already exists todo this since this is a internal tool
-  - ~~Add questions to json~~
-  - Add aws bucket to store diagrams
-  - ~~Display questions from json (edit/verify ability)~~
-  - Clean up the code, modularize the code. For easier maintainability
-  - Create an option to delete a question
-  - Add a Id field to JSON
-  - Save item to sql as well as JSON
+- make question game debugging more modularized so if in the future,
+ the question page is modularized to a different frontend, we can easily
+ point to the debug game page
 
-This will be need to done through the existing code since
-it does not make sense create another repository.
+- Reduce the dependency on question id within the sql, ideally we want to be able
+ to CRUD operations without resetting anything! So the question ID -- mapping to 
+ question number is becoming an issue
 
+- Review why diagrams do not appear on prod
 
-# Later Priority
-5. Add the indicator for question wrong
-6. Create a timer for 10 sec and move the player limit back to 5 
-7. If a user gets a question wrong, they redirected to another question
-8. Add (YOU) outside the progress bar that belongs to you
+- export const HOST = "http://localhost:8080" <- this should be controlled by environment variable
+- Review if the question page has a lot of duplicate code or if there is a better way 
+to generate the json
 
-- DB Migrations
-  - Make them lexographic so the migrations can be run easily
-
-- Add more questions
-  - Maybe: Add a better way to input questions that is faster
-  - Add support for diagrams using AWS buckets key value store
 
 # Good Deployment Instructions
 youtube.com/watch?v=PH-Mcd0Rs1w&list=PLy_6D98if3ULEtXtNSY_2qN21VCKgoQAE&index=32

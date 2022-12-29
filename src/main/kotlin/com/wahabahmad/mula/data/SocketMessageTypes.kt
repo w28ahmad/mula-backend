@@ -5,5 +5,5 @@ enum class SocketMessageTypes {
     USER_SOLUTION,
     PLAYER_CONNECTION,
     PLAYER_DISCONNECTION,
-    SESSION_CLOSE
+    START_GAME
 }

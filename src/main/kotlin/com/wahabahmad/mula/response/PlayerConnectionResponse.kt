@@ -6,5 +6,6 @@ import com.wahabahmad.mula.data.User
 data class PlayerConnectionResponse(
     val type: SocketMessageTypes = SocketMessageTypes.PLAYER_CONNECTION,
     val sessionId: String,
+    val remainingTime: Int,
     val users: List<User>
 )

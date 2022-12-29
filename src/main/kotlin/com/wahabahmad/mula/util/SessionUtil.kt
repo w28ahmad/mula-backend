@@ -68,9 +68,9 @@ class SessionUtil(
     fun getSessionQuestions(sessionId: String): Set<Int> =
         mapper.readValue(jedis.get("${SESSION_QUESTIONS}:${sessionId}"), Set::class.java) as Set<Int>
 
-    fun removePlayerFromSession(sessionId: String, userId: String) : Int =
+    fun removePlayerFromSession(sessionId: String, user: User) : Int =
         with(jedis) {
-            lrem("${SESSION_PLAYERS}:${sessionId}", 1, userId)
+            lrem("${SESSION_PLAYERS}:${sessionId}", 1, mapper.writeValueAsString(user))
             decr("${SESSION_PLAYER_COUNT}:${sessionId}").toInt()
         }
 
