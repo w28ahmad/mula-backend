@@ -1,7 +1,10 @@
 package com.wahabahmad.mula.request
 
-data class QuestionSolutionRequest (
-    val userId: String,
+import com.wahabahmad.mula.data.User
+
+data class QuestionSolutionRequest(
+    val sessionId: String,
+    val user: User,
     val questionId: Int,
     var solution: String,
 )

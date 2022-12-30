@@ -4,6 +4,7 @@ import com.wahabahmad.mula.data.Details
 import com.wahabahmad.mula.data.Hints
 import com.wahabahmad.mula.data.Question
 import com.wahabahmad.mula.data.QuestionData
+import com.wahabahmad.mula.data.SocketMessageTypes
 import com.wahabahmad.mula.data.SolutionData
 import com.wahabahmad.mula.exception.CommonExceptions
 import com.wahabahmad.mula.model.QuestionDetails
@@ -15,6 +16,8 @@ import com.wahabahmad.mula.repository.QuestionHintsRepository
 import com.wahabahmad.mula.repository.QuestionOptionsRepository
 import com.wahabahmad.mula.repository.QuestionRepository
 import com.wahabahmad.mula.repository.QuestionSolutionsRepository
+import com.wahabahmad.mula.response.QuestionSetResponse
+import com.wahabahmad.mula.util.SessionUtil
 import org.springframework.stereotype.Service
 
 @Service
@@ -24,8 +27,33 @@ class QuestionService(
     private val detailsRepository: QuestionDetailsRepository,
     private val hintsRepository: QuestionHintsRepository,
     private val questionOptionsRepository: QuestionOptionsRepository,
-    private val diagramService: DiagramService
+    private val diagramService: DiagramService,
+    private val sessionUtil: SessionUtil,
 ) {
+
+    fun getQuestions(sessionId: String): QuestionSetResponse =
+        with(sessionUtil) {
+            QuestionSetResponse(
+                SocketMessageTypes.QUESTION_SET,
+                questionRepository.findByIdIn(
+                    getSessionQuestions(sessionId).toList()
+                ).map { question ->
+                    question.diagram = question.getDiagramUrl(diagramService)
+                    question
+                }
+            )
+        }
+
+    fun getQuestionsByIdx(questionId: Int): QuestionSetResponse =
+        QuestionSetResponse(
+            SocketMessageTypes.QUESTION_SET,
+            listOf(questionRepository.findById(questionId).get()).map { question ->
+                question.diagram = question.getDiagramUrl(diagramService)
+                println(question.toString())
+                question
+            }
+        )
+    
     fun getQuestionCount(): Int = questionRepository.count().toInt()
 
     fun getQuestionById(id: Int): Question {

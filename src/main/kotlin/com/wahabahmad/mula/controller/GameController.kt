@@ -6,27 +6,31 @@ import com.wahabahmad.mula.request.QuestionSolutionRequest
 import com.wahabahmad.mula.response.QuestionSetResponse
 import com.wahabahmad.mula.response.QuestionSolutionResponse
 import com.wahabahmad.mula.service.GameService
+import com.wahabahmad.mula.service.QuestionService
 import org.springframework.messaging.handler.annotation.MessageMapping
 import org.springframework.messaging.handler.annotation.SendTo
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class GameController(
+    private val questionService: QuestionService,
     private val gameService: GameService
 ) {
 
     @MessageMapping("/game")
     @SendTo("/topic/game")
     fun beginGame(beginGameRequest: BeginGameRequest): QuestionSetResponse =
-        gameService.getQuestions(beginGameRequest.sessionId)
+        questionService.getQuestions(beginGameRequest.sessionId)
 
     @MessageMapping("/gameDebug")
     @SendTo("/topic/game")
     fun debugGame(beginGameRequest: BeginGameDebugRequest): QuestionSetResponse =
-        gameService.getQuestionsByIdx(beginGameRequest.questionId)
+        questionService.getQuestionsByIdx(beginGameRequest.questionId)
 
     @MessageMapping("/solution")
     @SendTo("/topic/game")
-    fun checkQuestion(questionSolution: QuestionSolutionRequest) : QuestionSolutionResponse =
-        gameService.checkQuestionSolution(questionSolution)
+    fun checkQuestion(questionSolution: QuestionSolutionRequest): QuestionSolutionResponse =
+        with(questionSolution) {
+            gameService.checkQuestionSolution(sessionId, user, questionId, solution)
+        }
 }
