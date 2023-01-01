@@ -49,11 +49,10 @@ class QuestionService(
             SocketMessageTypes.QUESTION_SET,
             listOf(questionRepository.findById(questionId).get()).map { question ->
                 question.diagram = question.getDiagramUrl(diagramService)
-                println(question.toString())
                 question
             }
         )
-    
+
     fun getQuestionCount(): Int = questionRepository.count().toInt()
 
     fun getQuestionById(id: Int): Question {

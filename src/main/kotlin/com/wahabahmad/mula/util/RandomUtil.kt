@@ -6,7 +6,9 @@ import kotlin.random.Random
 @Service
 class RandomUtil {
 
-    fun randomDistinctInts(min: Int, max:Int, size:Int) =
+    fun getRandomInt(min: Int, max: Int) = Random.nextInt(max - min + 1) + min
+
+    fun randomDistinctInts(min: Int, max: Int, size: Int) =
         generateSequence {
             Random.nextInt(min, max)
         }.distinct()
