@@ -1,6 +1,6 @@
 package com.wahabahmad.mula.request
 
-import com.wahabahmad.mula.data.User
+import com.wahabahmad.mula.model.User
 
 data class QuestionSolutionRequest(
     val sessionId: String,

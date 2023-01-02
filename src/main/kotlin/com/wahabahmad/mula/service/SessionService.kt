@@ -1,6 +1,6 @@
 package com.wahabahmad.mula.service
 
-import com.wahabahmad.mula.data.User
+import com.wahabahmad.mula.model.User
 import com.wahabahmad.mula.response.GameStartResponse
 import com.wahabahmad.mula.response.PlayerConnectionResponse
 import com.wahabahmad.mula.response.PlayerDisconnectionResponse
@@ -52,8 +52,6 @@ class SessionService(
 
     private fun getRemainingTime(): Long =
         GAME_CONNECTION_DELAY_SECONDS - (System.currentTimeMillis() - startTime) / 1000L
-
-    suspend fun closeSession(sessionId: String) = sessionUtil.closeSession()
 
     fun disconnect(sessionId: String, users: List<User>) =
         with(sessionUtil) {

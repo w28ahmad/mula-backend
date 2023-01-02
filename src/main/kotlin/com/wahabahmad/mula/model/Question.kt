@@ -13,10 +13,10 @@ data class Question(
     var diagram: String? = null,
 
     @OneToOne
-    @JoinColumn(name="id")
+    @JoinColumn(name = "id")
     val options: QuestionOptions? = null,
 
     ) : BaseEntity() {
     fun getDiagramUrl(diagramService: DiagramService): String? =
-        diagram?.let { diagramService.get(it).toString() }
+        diagram?.takeIf { it.isNotEmpty() }?.let { diagramService.get(it).toString() }
 }

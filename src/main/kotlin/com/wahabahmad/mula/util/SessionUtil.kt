@@ -1,12 +1,14 @@
 package com.wahabahmad.mula.util
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.wahabahmad.mula.data.User
 import com.wahabahmad.mula.exception.CommonExceptions
+import com.wahabahmad.mula.model.Question
+import com.wahabahmad.mula.model.User
 import com.wahabahmad.mula.repository.QuestionRepository
 import com.wahabahmad.mula.service.GameService.Companion.QUESTION_SET_SIZE
 import org.springframework.stereotype.Service
 import redis.clients.jedis.Jedis
+import java.lang.Integer.max
 import java.util.*
 
 @Service
@@ -24,6 +26,7 @@ class SessionUtil(
         const val SESSION_PLAYER_COUNT = "session:playerCount"
         const val SESSION_QUESTIONS = "session:questions"
 
+        const val SESSION_BACKUP_QUESTIONS_SIZE = "session:backupQuestionSize"
         const val MAX_TTL: Long = 6 * 60 * 60 // 6hrs
     }
 
@@ -45,7 +48,11 @@ class SessionUtil(
             return this
         }
 
-    fun closeSession(): Long = jedis.del(OPEN_SESSION)
+    fun closeSession(sessionId: String): Long =
+        with(sessionId) {
+            jedis.setex("$SESSION_BACKUP_QUESTIONS_SIZE:$sessionId", MAX_TTL, "0")
+            jedis.del(OPEN_SESSION)
+        }
 
     fun addPlayerToSession(sessionId: String, user: User): String =
         with(sessionId) {
@@ -80,6 +87,14 @@ class SessionUtil(
     fun getSessionQuestions(sessionId: String): Set<Int> =
         mapper.readValue(jedis.get("${SESSION_QUESTIONS}:${sessionId}"), Set::class.java) as Set<Int>
 
+    fun getSessionBackupSize(sessionId: String): Int =
+        jedis.get("$SESSION_BACKUP_QUESTIONS_SIZE:$sessionId").toInt()
+
+    fun incrementSessionBackupSize(sessionId: String): Boolean {
+        jedis.incr("$SESSION_BACKUP_QUESTIONS_SIZE:$sessionId")
+        return true
+    }
+
     fun removePlayerFromSession(sessionId: String, user: User): Int =
         with(jedis) {
             lrem("${SESSION_PLAYERS}:${sessionId}", 1, mapper.writeValueAsString(user))
@@ -91,19 +106,51 @@ class SessionUtil(
             del("${SESSION_PLAYERS}:${sessionId}")
             del("${SESSION_PLAYER_COUNT}:${sessionId}")
             del("${SESSION_QUESTIONS}:${sessionId}")
+            del("$SESSION_BACKUP_QUESTIONS_SIZE:$sessionId")
         }
+
+    fun getBackupQuestion(sessionId: String): Question {
+        val currentQuestionIds = getSessionQuestions(sessionId)
+        val newQuestionId = randomUtil.randomNumberNotInSet(1, questionRepository.count().toInt(), currentQuestionIds)
+        val newQuestions = currentQuestionIds + newQuestionId
+        jedis.setex(
+            "$SESSION_QUESTIONS:$sessionId", MAX_TTL, mapper.writeValueAsString(
+                newQuestions
+            )
+        )
+        return questionRepository.findById(newQuestionId).get()
+    }
 
     fun incrementPlayerScore(sessionId: String, user: User): User {
         val players: List<User> = getSessionPlayers(sessionId)
         val player = players.find { it.id == user.id }?.let {
             it.score++
-            removePlayerFromSession(sessionId, user)
-            addPlayerToSession(sessionId, it)
+            it.numberCorrect++
+            updateSessionPlayer(sessionId, oldUser = user, newUser = it)
             it
         }
 
         return requireNotNull(player) {
             throw Exception(CommonExceptions.USER_NOT_FOUND)
         }
+    }
+
+    fun decrementPlayerScore(sessionId: String, user: User): User {
+        val players: List<User> = getSessionPlayers(sessionId)
+        val player = players.find { it.id == user.id }?.let {
+            it.score = max(0, it.score - 1)
+            it.numberIncorrect++
+            updateSessionPlayer(sessionId, oldUser = user, newUser = user)
+            it
+        }
+
+        return requireNotNull(player) {
+            throw Exception(CommonExceptions.USER_NOT_FOUND)
+        }
+    }
+
+    private fun updateSessionPlayer(sessionId: String, oldUser: User, newUser: User) {
+        removePlayerFromSession(sessionId, oldUser)
+        addPlayerToSession(sessionId, newUser)
     }
 }

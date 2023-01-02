@@ -1,12 +1,12 @@
 package com.wahabahmad.mula.controller
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.wahabahmad.mula.data.User
 import com.wahabahmad.mula.model.Question
 import com.wahabahmad.mula.model.QuestionDetails
 import com.wahabahmad.mula.model.QuestionHints
 import com.wahabahmad.mula.model.QuestionOptions
 import com.wahabahmad.mula.model.QuestionSolutions
+import com.wahabahmad.mula.model.User
 import com.wahabahmad.mula.repository.QuestionDetailsRepository
 import com.wahabahmad.mula.repository.QuestionHintsRepository
 import com.wahabahmad.mula.repository.QuestionOptionsRepository
@@ -56,7 +56,7 @@ class TestController(
 
     @MessageMapping("/all")
     @SendTo("/topic/all")
-    fun post(message: Message) : Message {
+    fun post(message: Message): Message {
         return message
     }
 
@@ -70,7 +70,7 @@ class TestController(
         val testUser = User("u1234", "Adam")
         val mapper = jacksonObjectMapper()
         jedis.set(testUser.id, mapper.writeValueAsString(testUser))
-        val user : User = mapper.readValue(jedis.get(testUser.id), User::class.java)
+        val user: User = mapper.readValue(jedis.get(testUser.id), User::class.java)
         return user.toString()
     }
 }

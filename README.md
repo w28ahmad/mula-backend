@@ -49,6 +49,14 @@ players. Here are the proof of concept criterion:
 
 - All responses should be instantiated within the controllers
 
+# Queue Refactoring idea
+
+- We want to store player stats
+    - Stats need can contain numberCorrect & numberIncorrect
+    - Then if user x is incorrect then:
+        - check backupSize >= numberIncorrect: then no need to send backup
+        - check backupSize <  numberIncorrect: reset backupSize & sendBackup question
+
 # Good Deployment Instructions
 
 youtube.com/watch?v=PH-Mcd0Rs1w&list=PLy_6D98if3ULEtXtNSY_2qN21VCKgoQAE&index=32

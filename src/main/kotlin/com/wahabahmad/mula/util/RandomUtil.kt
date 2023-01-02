@@ -14,5 +14,8 @@ class RandomUtil {
         }.distinct()
             .take(size)
             .toSet()
+            .shuffled()
 
+    fun randomNumberNotInSet(min: Int, max: Int, notInThisSet: Set<Int>): Int =
+        ((min..max).toSet() - notInThisSet).random()
 }

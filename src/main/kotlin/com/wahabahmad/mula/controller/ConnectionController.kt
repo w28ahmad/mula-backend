@@ -1,6 +1,6 @@
 package com.wahabahmad.mula.controller
 
-import com.wahabahmad.mula.data.User
+import com.wahabahmad.mula.model.User
 import com.wahabahmad.mula.request.PlayerDisconnectRequest
 import com.wahabahmad.mula.response.PlayerConnectionResponse
 import com.wahabahmad.mula.response.PlayerDisconnectionResponse
