@@ -6,4 +6,5 @@ data class User(
     var score: Int = 0,
     var numberCorrect: Int = 0,
     var numberIncorrect: Int = 0,
+    var isCorrect: Boolean,
 )

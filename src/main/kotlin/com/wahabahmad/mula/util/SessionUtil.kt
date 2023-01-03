@@ -131,6 +131,7 @@ class SessionUtil(
         val player = players.find { it.id == user.id }?.let {
             it.score++
             it.numberCorrect++
+            it.isCorrect = true
             updateSessionPlayer(sessionId, oldUser = user, newUser = it)
             it
         }
@@ -145,6 +146,7 @@ class SessionUtil(
         val player = players.find { it.id == user.id }?.let {
             it.score = max(0, it.score - 1)
             it.numberIncorrect++
+            it.isCorrect = false
             updateSessionPlayer(sessionId, oldUser = user, newUser = it)
             it
         }
