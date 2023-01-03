@@ -5,9 +5,6 @@ import kotlin.random.Random
 
 @Service
 class RandomUtil {
-
-    fun getRandomInt(min: Int, max: Int) = Random.nextInt(max - min + 1) + min
-
     fun randomDistinctInts(min: Int, max: Int, size: Int) =
         generateSequence {
             Random.nextInt(min, max)
@@ -16,6 +13,6 @@ class RandomUtil {
             .toSet()
             .shuffled()
 
-    fun randomNumberNotInSet(min: Int, max: Int, notInThisSet: Set<Int>): Int =
-        ((min..max).toSet() - notInThisSet).random()
+    fun randomNumberNotInSet(min: Int, max: Int, size: Int, notInThisSet: Set<Int>): Set<Int> =
+        ((min..max).toSet() - notInThisSet).shuffled().take(size).toSet()
 }

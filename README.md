@@ -22,19 +22,19 @@ players. Here are the proof of concept criterion:
 
 # TODOs:
 
-- Refactor code to have the timer with the session
-- Ensure Player removal occurs on tab close
+- ~~Refactor code to have the timer with the session~~
+- ~~Ensure Player removal occurs on tab close~~
 - Add indicator for question wrong
-- If a user gets a question wrong, they redirected to another question
+- ~~If a user gets a question wrong, they redirected to another question~~
 - Fix the page size/scroll issues when page content gets too large
 
-- The entire session should be controlled by the backend,
+- ~~The entire session should be controlled by the backend,
   Closing session ... starting game, these should all be events
-  propagated by the backend
+  propagated by the backend~~
 
-- make question game debugging more modularized so if in the future,
+- ~~make question game debugging more modularized so if in the future,
   the question page is modularized to a different frontend, we can easily
-  point to the debug game page
+  point to the debug game page~~
 
 - Reduce the dependency on question id within the sql, ideally we want to be able
   to CRUD operations without resetting anything! So the question ID -- mapping to
@@ -48,14 +48,6 @@ players. Here are the proof of concept criterion:
 - Java SockJS TaskScheduler to use for scheduling heartbeats tasks
 
 - All responses should be instantiated within the controllers
-
-# Queue Refactoring idea
-
-- We want to store player stats
-    - Stats need can contain numberCorrect & numberIncorrect
-    - Then if user x is incorrect then:
-        - check backupSize >= numberIncorrect: then no need to send backup
-        - check backupSize <  numberIncorrect: reset backupSize & sendBackup question
 
 # Good Deployment Instructions
 

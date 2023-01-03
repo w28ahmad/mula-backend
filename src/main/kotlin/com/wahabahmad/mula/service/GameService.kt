@@ -26,7 +26,7 @@ class GameService(
         user: User,
         questionId: Int,
         solution: String
-    ): Pair<User, Question?> {
+    ): Pair<User, List<Question>> {
         val sessionBackupSize = sessionUtil.getSessionBackupSize(sessionId)
         val actualSolution = questionSolutionsRepository.findByQuestionId(questionId)
         val isCorrect = actualSolution.correctSolution == solution
@@ -34,17 +34,17 @@ class GameService(
             if (isCorrect) sessionUtil.incrementPlayerScore(sessionId, user)
             else sessionUtil.decrementPlayerScore(sessionId, user)
 
-        val backupQuestion =
+        val backupQuestions: List<Question> =
             if (sessionBackupSize < updatedUser.numberIncorrect) {
                 sessionUtil.incrementSessionBackupSize(sessionId)
-                with(sessionUtil.getBackupQuestion(sessionId)) {
-                    diagram = getDiagramUrl(diagramService)
-                    this
+                sessionUtil.getBackupQuestion(sessionId).map { question ->
+                    question.diagram = question.getDiagramUrl(diagramService)
+                    question
                 }
-            } else null
+            } else emptyList()
 
         /* Game finished */
         if (updatedUser.score == QUESTION_SET_SIZE) sessionService.disconnect(sessionId, listOf(updatedUser))
-        return Pair(updatedUser, backupQuestion)
+        return Pair(updatedUser, backupQuestions)
     }
 }

@@ -109,16 +109,21 @@ class SessionUtil(
             del("$SESSION_BACKUP_QUESTIONS_SIZE:$sessionId")
         }
 
-    fun getBackupQuestion(sessionId: String): Question {
+    fun getBackupQuestion(sessionId: String): List<Question> {
         val currentQuestionIds = getSessionQuestions(sessionId)
-        val newQuestionId = randomUtil.randomNumberNotInSet(1, questionRepository.count().toInt(), currentQuestionIds)
-        val newQuestions = currentQuestionIds + newQuestionId
+        val newQuestionIds = randomUtil.randomNumberNotInSet(
+            min = 1,
+            max = questionRepository.count().toInt(),
+            size = 2,
+            currentQuestionIds
+        )
+        val newQuestions = currentQuestionIds + newQuestionIds
         jedis.setex(
             "$SESSION_QUESTIONS:$sessionId", MAX_TTL, mapper.writeValueAsString(
                 newQuestions
             )
         )
-        return questionRepository.findById(newQuestionId).get()
+        return questionRepository.findAllById(newQuestionIds)
     }
 
     fun incrementPlayerScore(sessionId: String, user: User): User {
@@ -140,7 +145,7 @@ class SessionUtil(
         val player = players.find { it.id == user.id }?.let {
             it.score = max(0, it.score - 1)
             it.numberIncorrect++
-            updateSessionPlayer(sessionId, oldUser = user, newUser = user)
+            updateSessionPlayer(sessionId, oldUser = user, newUser = it)
             it
         }
 
