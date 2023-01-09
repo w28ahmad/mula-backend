@@ -56,11 +56,12 @@ class SessionUtil(
 
     fun addPlayerToSession(sessionId: String, user: User): String =
         with(sessionId) {
-            jedis.incr("${SESSION_PLAYER_COUNT}:${this}")
+            jedis.incr("${SESSION_PLAYER_COUNT}:$this")
             jedis.lpush(
                 "${SESSION_PLAYERS}:${this}",
                 mapper.writeValueAsString(user)
             )
+            jedis.expire("${SESSION_PLAYERS}:$this", MAX_TTL)
             this
         }
 
@@ -71,6 +72,7 @@ class SessionUtil(
                 "${SESSION_PLAYERS}:${this}",
                 mapper.writeValueAsString(user)
             )
+            jedis.expire("${SESSION_PLAYERS}:$this", MAX_TTL)
             this
         }
 
@@ -103,9 +105,9 @@ class SessionUtil(
 
     fun deleteSession(sessionId: String): Long =
         with(jedis) {
-            del("${SESSION_PLAYERS}:${sessionId}")
-            del("${SESSION_PLAYER_COUNT}:${sessionId}")
-            del("${SESSION_QUESTIONS}:${sessionId}")
+            del("${SESSION_PLAYERS}:$sessionId")
+            del("${SESSION_PLAYER_COUNT}:$sessionId")
+            del("${SESSION_QUESTIONS}:$sessionId")
             del("$SESSION_BACKUP_QUESTIONS_SIZE:$sessionId")
         }
 
