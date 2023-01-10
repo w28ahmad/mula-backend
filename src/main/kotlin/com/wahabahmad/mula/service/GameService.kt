@@ -2,20 +2,16 @@ package com.wahabahmad.mula.service
 
 import com.wahabahmad.mula.model.Question
 import com.wahabahmad.mula.model.User
-import com.wahabahmad.mula.repository.QuestionRepository
 import com.wahabahmad.mula.repository.QuestionSolutionsRepository
-import com.wahabahmad.mula.util.RandomUtil
 import com.wahabahmad.mula.util.SessionUtil
 import org.springframework.stereotype.Service
 
 @Service
 class GameService(
-    private val questionRepository: QuestionRepository,
     private val questionSolutionsRepository: QuestionSolutionsRepository,
     private val sessionService: SessionService,
     private val diagramService: DiagramService,
     private val sessionUtil: SessionUtil,
-    private val randomUtil: RandomUtil
 ) {
     companion object {
         const val QUESTION_SET_SIZE = 5

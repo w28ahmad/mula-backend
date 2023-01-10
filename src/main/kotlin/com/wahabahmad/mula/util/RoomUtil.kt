@@ -6,7 +6,6 @@ import com.wahabahmad.mula.model.Question
 import com.wahabahmad.mula.model.User
 import com.wahabahmad.mula.repository.QuestionDetailsRepository
 import com.wahabahmad.mula.repository.QuestionRepository
-import com.wahabahmad.mula.request.CreateGameRequest
 import com.wahabahmad.mula.service.GameService.Companion.QUESTION_SET_SIZE
 import org.springframework.stereotype.Service
 import redis.clients.jedis.Jedis
@@ -22,6 +21,13 @@ class RoomUtil(
 
     private val mapper = jacksonObjectMapper()
 
+    data class GameDetails(
+        val difficulty: List<String>,
+        val grade: Int,
+        val subject: String,
+        val topics: List<String>
+    )
+
     companion object {
         const val ROOM_DETAILS = "room:details"
         const val ROOM_PLAYERS = "room:players"
@@ -32,23 +38,33 @@ class RoomUtil(
         const val MAX_TTL: Long = 6 * 60 * 60 // 6hrs
     }
 
-    fun createRoom(createGameRequest: CreateGameRequest): String =
+    fun createRoom(
+        difficulty: List<String>,
+        grade: Int, subject: String, topics: List<String>
+    ): String =
         with(UUID.randomUUID().toString()) {
             jedis.setex("$ROOM_PLAYER_COUNT:$this", MAX_TTL, "0")
             jedis.setex(
                 "$ROOM_DETAILS:$this",
                 MAX_TTL,
-                mapper.writeValueAsString(createGameRequest)
+                mapper.writeValueAsString(
+                    GameDetails(
+                        difficulty,
+                        grade,
+                        subject,
+                        topics
+                    )
+                )
             )
             jedis.setex(
                 "$ROOM_QUESTIONS:$this", MAX_TTL,
                 mapper.writeValueAsString(
                     randomUtil.randomNumbersInSet(
                         questionDetailsRepository.getFilteredQuestionIds(
-                            createGameRequest.subject,
-                            createGameRequest.grade,
-                            createGameRequest.difficulty,
-                            createGameRequest.topics
+                            subject,
+                            grade,
+                            difficulty,
+                            topics
                         ),
                         QUESTION_SET_SIZE
                     )
@@ -57,10 +73,10 @@ class RoomUtil(
             this
         }
 
-    fun getRoomDetails(roomId: String): CreateGameRequest =
+    fun getRoomDetails(roomId: String): GameDetails =
         mapper.readValue(
             jedis.get("$ROOM_DETAILS:$roomId"),
-            CreateGameRequest::class.java
+            GameDetails::class.java
         )
 
     fun addPlayerToRoom(roomId: String, user: User): String =
@@ -115,7 +131,7 @@ class RoomUtil(
 
     fun getBackupQuestion(roomId: String): List<Question> {
         val currentQuestionIds = getRoomQuestions(roomId)
-        val roomDetails: CreateGameRequest = getRoomDetails(roomId)
+        val roomDetails: GameDetails = getRoomDetails(roomId)
 
         val newQuestionIds = randomUtil.randomNumberInSetButNotInOtherSet(
             questionDetailsRepository.getFilteredQuestionIds(
