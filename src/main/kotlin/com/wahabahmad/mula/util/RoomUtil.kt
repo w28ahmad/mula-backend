@@ -57,6 +57,12 @@ class RoomUtil(
             this
         }
 
+    fun getRoomDetails(roomId: String): CreateGameRequest =
+        mapper.readValue(
+            jedis.get("$ROOM_DETAILS:$roomId"),
+            CreateGameRequest::class.java
+        )
+
     fun addPlayerToRoom(roomId: String, user: User): String =
         with(roomId) {
             jedis.incr("${ROOM_PLAYER_COUNT}:$this")
@@ -109,17 +115,21 @@ class RoomUtil(
 
     fun getBackupQuestion(roomId: String): List<Question> {
         val currentQuestionIds = getRoomQuestions(roomId)
-        // TODO: Fix
+        val roomDetails: CreateGameRequest = getRoomDetails(roomId)
+
         val newQuestionIds = randomUtil.randomNumberInSetButNotInOtherSet(
-            // TODO: get details from room details
-            // TODO: pull question ids with those details
-            // Add the questions in this parameter
-            // TODO: param,
-            currentQuestionIds
+            questionDetailsRepository.getFilteredQuestionIds(
+                roomDetails.subject,
+                roomDetails.grade,
+                roomDetails.difficulty,
+                roomDetails.topics
+            ),
+            currentQuestionIds,
+            size = 2
         )
         val newQuestions = currentQuestionIds + newQuestionIds
         jedis.setex(
-            "${SessionUtil.SESSION_QUESTIONS}:$roomId", SessionUtil.MAX_TTL, mapper.writeValueAsString(
+            "$ROOM_QUESTIONS:$roomId", MAX_TTL, mapper.writeValueAsString(
                 newQuestions
             )
         )
