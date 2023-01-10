@@ -13,7 +13,8 @@ interface QuestionDetailsRepository : JpaRepository<QuestionDetails, Int> {
 
     @Modifying
     @Transactional
-    @Query("""
+    @Query(
+        """
             UPDATE QuestionDetails qd 
             SET qd.grade = :grade,
                 qd.partType = :partType,
@@ -23,7 +24,8 @@ interface QuestionDetailsRepository : JpaRepository<QuestionDetails, Int> {
                 qd.topic = :topic,
                 qd.questionId = :id
             WHERE qd.id = :id
-            """)
+            """
+    )
     fun updateQuestionDetailsById(
         @Param("id") id: Int,
         @Param("grade") grade: Int,
@@ -33,4 +35,21 @@ interface QuestionDetailsRepository : JpaRepository<QuestionDetails, Int> {
         @Param("subject") subject: String,
         @Param("topic") topic: String
     )
+
+
+    @Query(
+        """
+        SELECT q.id FROM QuestionDetails q 
+        WHERE q.subject = :subject 
+        AND q.grade = :grade 
+        AND q.partType IN (:difficulty) 
+        AND q.topic IN (:topics)
+        """
+    )
+    fun getFilteredQuestionIds(
+        @Param("subject") subject: String,
+        @Param("grade") grade: Int,
+        @Param("difficulty") difficulty: List<String>,
+        @Param("topics") topics: List<String>
+    ): Set<Int>
 }

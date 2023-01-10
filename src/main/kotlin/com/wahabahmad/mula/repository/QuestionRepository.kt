@@ -21,5 +21,4 @@ interface QuestionRepository : JpaRepository<Question, Int> {
         @Param("question") question: String,
         @Param("diagram") diagram: String
     )
-
 }

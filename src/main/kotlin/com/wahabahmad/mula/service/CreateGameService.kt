@@ -12,11 +12,12 @@ class CreateGameService(
 ) {
 
 
-    fun createGame(user: User): CreateGameResponse =
-        with(sessionUtil) {
+    fun createGame(user: User): CreateGameResponse? =
+        with(roomUtil) {
             user.id = UUID.randomUUID().toString()
 
-            CreateGameResponse(/* TODO */)
+//            CreateGameResponse(/* TODO */)
+            return null
         }
 
 
