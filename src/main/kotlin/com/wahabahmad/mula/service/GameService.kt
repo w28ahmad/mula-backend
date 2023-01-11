@@ -40,7 +40,8 @@ class GameService(
             } else emptyList()
 
         /* Game finished */
-        if (updatedUser.score == QUESTION_SET_SIZE) sessionService.disconnect(sessionId, listOf(updatedUser))
+        if (updatedUser.score == QUESTION_SET_SIZE)
+            sessionService.disconnect(sessionId, listOf(updatedUser))
         return Pair(updatedUser, backupQuestions)
     }
 }
