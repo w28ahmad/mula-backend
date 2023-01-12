@@ -1,9 +1,12 @@
 package com.wahabahmad.mula.service
 
+import com.wahabahmad.mula.data.SocketMessageTypes
 import com.wahabahmad.mula.model.Question
 import com.wahabahmad.mula.model.User
+import com.wahabahmad.mula.repository.QuestionRepository
 import com.wahabahmad.mula.repository.QuestionSolutionsRepository
 import com.wahabahmad.mula.response.CreateGameResponse
+import com.wahabahmad.mula.response.QuestionSetResponse
 import com.wahabahmad.mula.response.createGameDisconnectionResponse
 import com.wahabahmad.mula.service.GameService.Companion.QUESTION_SET_SIZE
 import com.wahabahmad.mula.util.RoomUtil
@@ -13,6 +16,7 @@ import java.util.*
 @Service
 class CreateGameService(
     private val roomUtil: RoomUtil,
+    private val questionRepository: QuestionRepository,
     private val questionSolutionsRepository: QuestionSolutionsRepository,
     private val diagramService: DiagramService
 ) {
@@ -77,4 +81,17 @@ class CreateGameService(
             createGameDisconnect(roomId, listOf(updatedUser))
         return Pair(updatedUser, backupQuestion)
     }
+
+    fun getQuestions(roomId: String): QuestionSetResponse =
+        with(roomUtil) {
+            QuestionSetResponse(
+                SocketMessageTypes.QUESTION_SET,
+                questionRepository.findByIdIn(
+                    getRoomQuestions(roomId).toList()
+                ).map { question ->
+                    question.diagram = question.getDiagramUrl(diagramService)
+                    question
+                }
+            )
+        }
 }

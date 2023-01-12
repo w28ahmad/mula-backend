@@ -1,6 +1,7 @@
 package com.wahabahmad.mula.controller
 
 import com.wahabahmad.mula.data.SocketMessageTypes
+import com.wahabahmad.mula.request.BeginCreateGameRequest
 import com.wahabahmad.mula.request.CreateGameRequest
 import com.wahabahmad.mula.request.CreateQuestionSolutionRequest
 import com.wahabahmad.mula.request.createGameDisconnectionRequest
@@ -39,7 +40,6 @@ class CreateGameController(
 
 
     @MessageMapping("/createGame/solution")
-    @SendTo("/topic/disconnect")
     fun checkQuestion(questionSolution: CreateQuestionSolutionRequest) =
         with(questionSolution) {
             val (updatedUser, backupQuestion) = createGameService.checkQuestionSolution(
@@ -55,6 +55,15 @@ class CreateGameController(
                     updatedUser,
                     backupQuestion
                 )
+            )
+        }
+
+    @MessageMapping("/createGame/getQuestions")
+    fun getQuestions(beginCreateGameRequest: BeginCreateGameRequest) =
+        with(beginCreateGameRequest) {
+            messageTemplate.convertAndSend(
+                "/topic/$roomId/game",
+                createGameService.getQuestions(roomId)
             )
         }
 
