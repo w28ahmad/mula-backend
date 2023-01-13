@@ -44,6 +44,7 @@ class RoomUtil(
     ): String =
         with(UUID.randomUUID().toString()) {
             jedis.setex("$ROOM_PLAYER_COUNT:$this", MAX_TTL, "0")
+            jedis.setex("$ROOM_BACKUP_QUESTIONS_SIZE:$this", MAX_TTL, "0")
             jedis.setex(
                 "$ROOM_DETAILS:$this",
                 MAX_TTL,
@@ -81,19 +82,19 @@ class RoomUtil(
 
     fun addPlayerToRoom(roomId: String, user: User): String =
         with(roomId) {
-            jedis.incr("${ROOM_PLAYER_COUNT}:$this")
+            jedis.incr("$ROOM_PLAYER_COUNT:$this")
             jedis.lpush(
-                "${ROOM_PLAYERS}:${this}",
+                "$ROOM_PLAYERS:$this",
                 mapper.writeValueAsString(user)
             )
-            jedis.expire("${ROOM_PLAYERS}:$this", MAX_TTL)
+            jedis.expire("$ROOM_PLAYERS:$this", MAX_TTL)
             this
         }
 
 
     fun getRoomPlayers(roomId: String): List<User> =
         mutableListOf<User>().apply {
-            jedis.lrange("${ROOM_PLAYERS}:$roomId", 0, -1)
+            jedis.lrange("$ROOM_PLAYERS:$roomId", 0, -1)
                 .forEach { user ->
                     add(
                         mapper.readValue(user, User::class.java)
@@ -103,13 +104,13 @@ class RoomUtil(
 
 
     fun getRoomQuestions(roomId: String): Set<Int> =
-        mapper.readValue(jedis.get("${ROOM_QUESTIONS}:${roomId}"), Set::class.java) as Set<Int>
+        mapper.readValue(jedis.get("$ROOM_QUESTIONS:$roomId"), Set::class.java) as Set<Int>
 
     fun getRoomBackupSize(roomId: String): Int =
-        jedis.get("${ROOM_BACKUP_QUESTIONS_SIZE}:$roomId").toInt()
+        jedis.get("$ROOM_BACKUP_QUESTIONS_SIZE:$roomId").toInt()
 
     fun incrementRoomBackupSize(roomId: String): Boolean {
-        jedis.incr("${ROOM_BACKUP_QUESTIONS_SIZE}:$roomId")
+        jedis.incr("$ROOM_BACKUP_QUESTIONS_SIZE:$roomId")
         return true
     }
 
